@@ -4,8 +4,10 @@ import {
   ArrowClockwise,
   BookOpenText,
   Bird,
+  CaretDown,
   CaretLeft,
   CaretRight,
+  CaretUp,
   ChatCircleDots,
   Check,
   MapTrifold,
@@ -82,4 +84,13 @@ export function IconNova({ className }: IconProps) {
 
 export function IconEstrela({ className, cheia = true }: IconProps & { cheia?: boolean }) {
   return <Star {...props(className, cheia ? "fill" : "bold")} />;
+}
+
+/** Setas do D-pad do Passeio. */
+export function IconSetaCima({ className }: IconProps) {
+  return <CaretUp {...props(className, "bold")} />;
+}
+
+export function IconSetaBaixo({ className }: IconProps) {
+  return <CaretDown {...props(className, "bold")} />;
 }

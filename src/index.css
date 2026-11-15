@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
-/* Tokens de design — Mata Atlântica ilustrada (docs/frontend.md §2) */
-@theme {
+/* Tokens de design — Mata Atlântica ilustrada (docs/frontend.md §2).
+   "static": todas as variáveis vão para o CSS, pois o Canvas do Passeio as lê em JS. */
+@theme static {
   /* Cores do lodge */
   --color-mata-950: #0e2619;
   --color-mata-900: #163d2a;
@@ -27,6 +28,23 @@
   --color-saira: #2a93b8;
   --color-canario: #f2c718;
   --color-tie: #c8323b;
+
+  /* Mapa do Passeio (lidos pelo Canvas em src/game/paleta.ts) */
+  --color-mapa-grama: #8cc565;
+  --color-mapa-grama-escura: #6faa4c;
+  --color-mapa-trilha: #d9b47e;
+  --color-mapa-trilha-escura: #b88f58;
+  --color-mapa-agua: #3f9fa6;
+  --color-mapa-agua-funda: #2f8088;
+  --color-mapa-agua-reflexo: #a6dcd6;
+  --color-mapa-campo: #c8c25a;
+  --color-mapa-pedra: #a3aba7;
+  --color-mapa-pedra-escura: #737e7a;
+  --color-mapa-pele: #e8b48a;
+  --color-mapa-sombra: rgb(14 38 25 / 0.25);
+  --color-hortensia-lilas: #a986d4;
+  --color-terracota-escura: #9e4a2a;
+  --color-madeira-escura: #64402a;
 
   /* Feedback */
   --color-acerto: #3a7d26;
@@ -56,6 +74,7 @@
   /* Espaçamentos */
   --spacing-toque: 3.5rem; /* alvo mínimo de toque: 56 px */
   --spacing-conteudo: 48rem; /* largura máxima no desktop */
+  --spacing-dpad: 4rem; /* botão do D-pad: 64 px */
 
   /* Movimento */
   --ease-suave: cubic-bezier(0.22, 1, 0.36, 1);

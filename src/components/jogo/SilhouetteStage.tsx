@@ -7,6 +7,8 @@ import { IconSilhueta } from "../ui/icons";
 type SilhouetteStageProps = {
   ave: Ave;
   revelada: boolean;
+  /** A ave foge sem ser revelada ("A ave voou!", no Passeio). */
+  voou?: boolean;
   /** Sobreposição no topo do palco (ex.: Toast). */
   children?: ReactNode;
   className?: string;
@@ -19,7 +21,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
  * com rótulo genérico. Ao revelar: a foto colorida surge (fade + escala) e a ave "pula".
  * Use `key={ave.id}` no pai para reiniciar a cada pergunta.
  */
-export function SilhouetteStage({ ave, revelada, children, className = "" }: SilhouetteStageProps) {
+export function SilhouetteStage({ ave, revelada, voou = false, children, className = "" }: SilhouetteStageProps) {
   const [fotoFalhou, setFotoFalhou] = useState(false);
   const [silhuetaFalhou, setSilhuetaFalhou] = useState(false);
 
@@ -34,7 +36,7 @@ export function SilhouetteStage({ ave, revelada, children, className = "" }: Sil
       {/* rótulo genérico até revelar; o nome só entra depois */}
       <div
         role="img"
-        aria-label={revelada ? `Foto de ${ave.nomePopular}` : "Silhueta de uma ave"}
+        aria-label={revelada ? `Foto de ${ave.nomePopular}` : voou ? "A ave voou" : "Silhueta de uma ave"}
         className="absolute inset-0"
       />
       {/* chão: sombra suave sob a ave */}
@@ -43,8 +45,14 @@ export function SilhouetteStage({ ave, revelada, children, className = "" }: Sil
       <motion.div
         aria-hidden
         className="relative aspect-square h-[82%] max-w-[82%]"
-        animate={revelada ? { y: [0, -18, 0, -6, 0] } : { y: 0 }}
-        transition={{ duration: 0.6, delay: 0.25, ease: EASE }}
+        animate={
+          voou
+            ? { x: [0, -12, 220], y: [0, 10, -360], rotate: [0, -6, -18], opacity: [1, 1, 0] }
+            : revelada
+              ? { y: [0, -18, 0, -6, 0] }
+              : { y: 0 }
+        }
+        transition={voou ? { duration: 0.9, ease: "easeIn" } : { duration: 0.6, delay: 0.25, ease: EASE }}
       >
         {/* silhueta */}
         <motion.div

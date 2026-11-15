@@ -10,7 +10,7 @@ import { ProgressDots } from "../ui/ProgressDots";
 import { Toast } from "../ui/Toast";
 import { AudioButton } from "./AudioButton";
 import { BirdCard } from "./BirdCard";
-import { DifficultyPicker } from "./DifficultyPicker";
+import { LevelIntro } from "./LevelIntro";
 import { RoundSummary } from "./RoundSummary";
 
 type QuizLayoutProps = {
@@ -45,24 +45,12 @@ export function QuizLayout({ titulo, quiz, intro, renderPalco, opcoesComFoto = f
   if (etapa === "nivel") {
     return (
       <GameShell titulo={titulo}>
-        <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, ease: EASE }}
-            className="flex size-28 items-center justify-center rounded-full bg-neblina text-mata-950 shadow-cartao"
-          >
-            {intro.icone}
-          </motion.div>
-          <div>
-            <h2 className="text-titulo text-mata-900">{intro.pergunta}</h2>
-            <p className="mt-2 text-corpo text-tinta-suave">{intro.texto}</p>
-          </div>
-          <DifficultyPicker valor={quiz.dificuldadeSalva} onChange={quiz.definirDificuldade} />
-          <Button onClick={() => quiz.comecar(quiz.dificuldadeSalva)} className="w-full sm:w-auto sm:px-12">
-            Começar <IconAvancar className="size-7" />
-          </Button>
-        </div>
+        <LevelIntro
+          {...intro}
+          dificuldade={quiz.dificuldadeSalva}
+          onMudarDificuldade={quiz.definirDificuldade}
+          onComecar={() => quiz.comecar(quiz.dificuldadeSalva)}
+        />
       </GameShell>
     );
   }
