@@ -16,6 +16,8 @@ type OpcoesQuiz = {
   tocarAoPerguntar?: boolean;
   /** Toca o canto quando a ave é revelada (Silhueta). */
   tocarAoRevelar?: boolean;
+  /** Toca o canto de novo só no acerto (Canto). */
+  tocarAoAcertar?: boolean;
 };
 
 /** Tempo para ver o ✓ / a resposta certa antes do cartão da ave aparecer. */
@@ -41,7 +43,7 @@ function cantoDe(aveId: string | undefined): string | null {
   return aveId ? getAve(aveId).midia.canto : null;
 }
 
-export function useQuizRodada(jogo: JogoQuiz, { tocarAoPerguntar = false, tocarAoRevelar = false }: OpcoesQuiz = {}) {
+export function useQuizRodada(jogo: JogoQuiz, { tocarAoPerguntar = false, tocarAoRevelar = false, tocarAoAcertar = false }: OpcoesQuiz = {}) {
   const { progresso, definirDificuldade, descobrir, somarRodada } = useSessao();
   const [etapa, setEtapa] = useState<EtapaQuiz>("nivel");
   const [estado, dispatch] = useReducer(reduzirRodada, progresso.dificuldade, (d: Dificuldade) =>
@@ -81,7 +83,8 @@ export function useQuizRodada(jogo: JogoQuiz, { tocarAoPerguntar = false, tocarA
     if (acertou) descobrir([pergunta.aveId]); // acerto conta para o Álbum na hora
     // revela a ave (acerto ou última tentativa): toca o canto dentro do gesto
     const revela = acertou || estado.tentativasRestantes <= 1;
-    if (tocarAoRevelar && revela && ave.midia.canto) void tocarAudio(ave.midia.canto);
+    const tocar = tocarAoRevelar ? revela : tocarAoAcertar && acertou;
+    if (tocar && ave.midia.canto) void tocarAudio(ave.midia.canto);
     dispatch({ tipo: "responder", opcaoId });
   }
 
