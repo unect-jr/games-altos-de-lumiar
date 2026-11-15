@@ -1,5 +1,6 @@
 import type { Ref } from "react";
 import { motion } from "motion/react";
+import { PLACEHOLDER_AVE } from "../../data/aves";
 import { IconCerto, IconQuase } from "./icons";
 
 /**
@@ -12,6 +13,8 @@ export type EstadoOpcao = "livre" | "descartada" | "certa" | "apagada";
 
 type AnswerButtonProps = {
   rotulo: string;
+  /** Miniatura da ave (decorativa: o nome já está no rótulo). */
+  imagem?: string;
   estado: EstadoOpcao;
   /** Posição na lista (cascata de entrada e atalho de teclado). */
   indice: number;
@@ -34,7 +37,7 @@ const animacoes: Record<EstadoOpcao, { x?: number[]; y?: number[]; scale?: numbe
 };
 
 /** Opção de resposta grande, com ícone além da cor (✓ certa, balão "quase"). */
-export function AnswerButton({ rotulo, estado, indice, onEscolher, ref }: AnswerButtonProps) {
+export function AnswerButton({ rotulo, imagem, estado, indice, onEscolher, ref }: AnswerButtonProps) {
   const ativa = estado === "livre";
   const sufixo = estado === "certa" ? ", resposta certa" : estado === "descartada" ? ", não é esta" : "";
   return (
@@ -66,6 +69,17 @@ export function AnswerButton({ rotulo, estado, indice, onEscolher, ref }: Answer
             indice + 1
           )}
         </span>
+        {imagem && (
+          <img
+            src={imagem}
+            alt=""
+            draggable={false}
+            onError={(evento) => {
+              if (!evento.currentTarget.src.endsWith(PLACEHOLDER_AVE)) evento.currentTarget.src = PLACEHOLDER_AVE;
+            }}
+            className={`size-12 shrink-0 rounded-xl bg-neblina object-cover ${estado === "apagada" ? "grayscale" : ""}`}
+          />
+        )}
         <span className="flex-1">{rotulo}</span>
       </motion.button>
     </motion.div>
