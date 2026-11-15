@@ -25,7 +25,7 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
   const [estado, dispatch] = useReducer(reduzirSessao, undefined, () =>
     estadoInicial(lerSomSalvo()),
   );
-  const { iniciado, progresso } = estado;
+  const { iniciado, progresso, vistas } = estado;
   const { somLigado } = progresso;
 
   // mantém o player e o localStorage em dia com a escolha de som
@@ -52,6 +52,10 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
     dispatch({ tipo: "descobrir", aveIds, data: new Date().toISOString() });
   }, []);
 
+  const marcarVistas = useCallback(() => {
+    dispatch({ tipo: "marcarVistas" });
+  }, []);
+
   const somarRodada = useCallback((pontos: number, melhorSequencia: number) => {
     dispatch({ tipo: "somarRodada", pontos, melhorSequencia });
   }, []);
@@ -60,14 +64,16 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
     () => ({
       iniciado,
       progresso,
+      vistas,
       somLigado,
       iniciar,
       alternarSom,
       definirDificuldade,
       descobrir,
+      marcarVistas,
       somarRodada,
     }),
-    [iniciado, progresso, somLigado, iniciar, alternarSom, definirDificuldade, descobrir, somarRodada],
+    [iniciado, progresso, vistas, somLigado, iniciar, alternarSom, definirDificuldade, descobrir, marcarVistas, somarRodada],
   );
 
   return <SessaoContext value={valor}>{children}</SessaoContext>;

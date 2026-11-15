@@ -9,6 +9,8 @@ export type EstadoSessao = {
   /** O usuário já tocou em "Toque para começar" nesta sessão. */
   iniciado: boolean;
   progresso: Progresso;
+  /** Aves já vistas no Álbum (as outras ganham o selo "Nova!"). */
+  vistas: string[];
 };
 
 export type AcaoSessao =
@@ -16,6 +18,7 @@ export type AcaoSessao =
   | { tipo: "alternarSom" }
   | { tipo: "definirDificuldade"; dificuldade: Dificuldade }
   | { tipo: "descobrir"; aveIds: string[]; data: string }
+  | { tipo: "marcarVistas" }
   | { tipo: "somarRodada"; pontos: number; melhorSequencia: number };
 
 export function estadoInicial(somLigado: boolean): EstadoSessao {
@@ -28,6 +31,7 @@ export function estadoInicial(somLigado: boolean): EstadoSessao {
       dificuldade: DIFICULDADE_PADRAO,
       somLigado,
     },
+    vistas: [],
   };
 }
 
@@ -47,6 +51,11 @@ export function reduzirSessao(estado: EstadoSessao, acao: AcaoSessao): EstadoSes
       novas.forEach((id) => (descobertas[id] = acao.data));
       return { ...estado, progresso: { ...progresso, descobertas } };
     }
+    case "marcarVistas": {
+      const ids = Object.keys(progresso.descobertas);
+      if (ids.length === estado.vistas.length) return estado;
+      return { ...estado, vistas: ids };
+    }
     case "somarRodada":
       return {
         ...estado,
@@ -62,6 +71,7 @@ export function reduzirSessao(estado: EstadoSessao, acao: AcaoSessao): EstadoSes
 export type Sessao = {
   iniciado: boolean;
   progresso: Progresso;
+  vistas: string[];
   /** Atalho para `progresso.somLigado`. */
   somLigado: boolean;
   iniciar: () => void;
@@ -69,6 +79,8 @@ export type Sessao = {
   definirDificuldade: (dificuldade: Dificuldade) => void;
   /** Registra aves no Álbum (ignora as já descobertas). */
   descobrir: (aveIds: string[]) => void;
+  /** Marca todas as descobertas como vistas no Álbum. */
+  marcarVistas: () => void;
   /** Soma os pontos de uma rodada/encontro ao total da sessão. */
   somarRodada: (pontos: number, melhorSequencia: number) => void;
 };

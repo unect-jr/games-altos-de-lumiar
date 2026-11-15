@@ -9,10 +9,13 @@ import {
   ChatCircleDots,
   Check,
   MapTrifold,
+  Medal,
   MusicNotes,
+  Sparkle,
   SpeakerHigh,
   SpeakerSlash,
   Star,
+  X,
   type IconWeight,
 } from "@phosphor-icons/react";
 
@@ -63,6 +66,18 @@ export function IconRepetir({ className }: IconProps) {
 export function IconSom({ className, ligado }: IconProps & { ligado: boolean }) {
   const Componente = ligado ? SpeakerHigh : SpeakerSlash;
   return <Componente {...props(className, "fill")} />;
+}
+
+export function IconTitulo({ className }: IconProps) {
+  return <Medal {...props(className, "fill")} />;
+}
+
+export function IconFechar({ className }: IconProps) {
+  return <X {...props(className, "bold")} />;
+}
+
+export function IconNova({ className }: IconProps) {
+  return <Sparkle {...props(className, "fill")} />;
 }
 
 export function IconEstrela({ className, cheia = true }: IconProps & { cheia?: boolean }) {

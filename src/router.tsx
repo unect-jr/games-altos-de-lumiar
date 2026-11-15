@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import { RootLayout } from "./layouts/RootLayout";
+import { Album } from "./pages/Album";
 import { Canto } from "./pages/Canto";
 import { EmBreve } from "./pages/EmBreve";
 import { Inicio } from "./pages/Inicio";
@@ -13,7 +14,7 @@ export const router = createBrowserRouter([
       { path: "silhueta", element: <Silhueta /> },
       { path: "canto", element: <Canto /> },
       { path: "passeio", element: <EmBreve titulo="Passeio" /> },
-      { path: "album", element: <EmBreve titulo="Álbum" /> },
+      { path: "album", element: <Album /> },
       { path: "creditos", element: <EmBreve titulo="Créditos" /> },
       { path: "*", element: <Navigate to="/" replace /> },
     ],
