@@ -3,13 +3,19 @@ import type { Ave, Habitat } from "./types";
 // 12 aves reais do lodge (versão demonstrativa). Fonte: docs/produto.md, seção 9.
 // Não acrescente fatos além dos que estão aqui sem validar com o guia do lodge.
 //
-// Mídias: quando o arquivo existir em `public/aves/<slug>/`, troque o `null`
-// pelo caminho (ex.: "/aves/bem-te-vi/foto.webp") e registre o crédito.
+// Mídias: fotos em `public/aves/imagens/<slug>.jpg` e cantos em
+// `public/aves/cantos/<slug>.<mp3|wav>`. Sem silhueta própria, o jogo escurece a foto.
 
 /** Imagem neutra usada enquanto a foto/silhueta real não existe. */
 export const PLACEHOLDER_AVE = "/aves/placeholder.svg";
 
-const semMidia = () => ({ silhueta: null, foto: null, canto: null, creditos: [] });
+/** Monta a mídia da ave a partir do slug. */
+const midiaDe = (slug: string, extCanto: "mp3" | "wav") => ({
+  silhueta: null,
+  foto: `/aves/imagens/${slug}.jpg`,
+  canto: `/aves/cantos/${slug}.${extCanto}`,
+  creditos: [],
+});
 
 export const aves: Ave[] = [
   {
@@ -22,7 +28,7 @@ export const aves: Ave[] = [
     raridade: "incomum",
     semelhantes: [],
     curiosidade: "É o maior dos tucanos, e o bico enorme é leve por dentro.",
-    midia: semMidia(),
+    midia: midiaDe("tucanucu", "mp3"),
   },
   {
     id: "beija-flor-tesoura",
@@ -34,7 +40,7 @@ export const aves: Ave[] = [
     raridade: "comum",
     semelhantes: [],
     curiosidade: "A cauda comprida lembra uma tesoura.",
-    midia: semMidia(),
+    midia: midiaDe("beija-flor-tesoura", "wav"),
   },
   {
     id: "quero-quero",
@@ -46,7 +52,7 @@ export const aves: Ave[] = [
     raridade: "comum",
     semelhantes: ["seriema"],
     curiosidade: "Grita para avisar quando há perigo por perto.",
-    midia: semMidia(),
+    midia: midiaDe("quero-quero", "mp3"),
   },
   {
     id: "joao-de-barro",
@@ -58,7 +64,7 @@ export const aves: Ave[] = [
     raridade: "comum",
     semelhantes: ["bem-te-vi", "sabia-laranjeira"],
     curiosidade: "Constrói a casa de barro, parecida com um forninho.",
-    midia: semMidia(),
+    midia: midiaDe("joao-de-barro", "wav"),
   },
   {
     id: "bem-te-vi",
@@ -70,7 +76,7 @@ export const aves: Ave[] = [
     raridade: "comum",
     semelhantes: ["sabia-laranjeira", "joao-de-barro"],
     curiosidade: "O canto parece dizer o próprio nome.",
-    midia: semMidia(),
+    midia: midiaDe("bem-te-vi", "mp3"),
   },
   {
     id: "sabia-laranjeira",
@@ -82,7 +88,7 @@ export const aves: Ave[] = [
     raridade: "comum",
     semelhantes: ["bem-te-vi", "joao-de-barro"],
     curiosidade: "É a ave símbolo do Brasil e canta ao amanhecer.",
-    midia: semMidia(),
+    midia: midiaDe("sabia-laranjeira", "mp3"),
   },
   {
     id: "araponga",
@@ -94,7 +100,7 @@ export const aves: Ave[] = [
     raridade: "rara",
     semelhantes: ["tangara", "saira-sete-cores"],
     curiosidade: "O canto metálico parece marteladas numa bigorna e ecoa pela mata.",
-    midia: semMidia(),
+    midia: midiaDe("araponga", "wav"),
   },
   {
     id: "tangara",
@@ -106,7 +112,7 @@ export const aves: Ave[] = [
     raridade: "rara",
     semelhantes: ["saira-sete-cores", "araponga"],
     curiosidade: "Os machos dançam juntos para impressionar as fêmeas.",
-    midia: semMidia(),
+    midia: midiaDe("tangara", "wav"),
   },
   {
     id: "corujinha-do-mato",
@@ -118,7 +124,7 @@ export const aves: Ave[] = [
     raridade: "incomum",
     semelhantes: [],
     curiosidade: "Pequena, com \"orelhas\" de penas, vive de noite.",
-    midia: semMidia(),
+    midia: midiaDe("corujinha-do-mato", "wav"),
   },
   {
     id: "seriema",
@@ -130,7 +136,7 @@ export const aves: Ave[] = [
     raridade: "incomum",
     semelhantes: ["quero-quero"],
     curiosidade: "Corre muito e dá um grito forte que se ouve de longe.",
-    midia: semMidia(),
+    midia: midiaDe("seriema", "mp3"),
   },
   {
     id: "martim-pescador-grande",
@@ -142,7 +148,7 @@ export const aves: Ave[] = [
     raridade: "incomum",
     semelhantes: [],
     curiosidade: "Mergulha na água para pegar peixes.",
-    midia: semMidia(),
+    midia: midiaDe("martim-pescador-grande", "mp3"),
   },
   {
     id: "saira-sete-cores",
@@ -154,7 +160,7 @@ export const aves: Ave[] = [
     raridade: "incomum",
     semelhantes: ["tangara", "araponga"],
     curiosidade: "Tem penas de muitas cores e adora frutas.",
-    midia: semMidia(),
+    midia: midiaDe("saira-sete-cores", "wav"),
   },
 ];
 
