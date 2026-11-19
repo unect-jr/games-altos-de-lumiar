@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
-import { fotoDe, getAve } from "../../data/aves";
+import { fotoDe, getAve, PLACEHOLDER_AVE } from "../../data/aves";
 import type { ResultadoPergunta } from "../../quiz/pontuacao";
 import { calcularEstrelas } from "../../quiz/pontuacao";
 import { Button } from "../ui/Button";
@@ -79,7 +79,16 @@ export function RoundSummary({
               transition={{ duration: 0.3, delay: 0.5 + i * 0.07, ease: EASE }}
               className="flex items-center gap-3 rounded-botao bg-creme-50 p-2 pr-4 shadow-cartao"
             >
-              <img src={fotoDe(ave)} alt="" className="size-12 shrink-0 rounded-xl object-cover" />
+              <img
+                src={fotoDe(ave)}
+                alt=""
+                loading="lazy"
+                onError={(evento) => {
+                  // imagem quebrada: troca pelo desenho neutro (uma vez só)
+                  if (!evento.currentTarget.src.endsWith(PLACEHOLDER_AVE)) evento.currentTarget.src = PLACEHOLDER_AVE;
+                }}
+                className="size-12 shrink-0 rounded-xl bg-creme-100 object-cover"
+              />
               <span className="flex-1 font-titulo text-botao font-semibold text-mata-900">{ave.nomePopular}</span>
               {r.acertou ? (
                 <span className="inline-flex items-center gap-1 text-corpo font-bold text-acerto">

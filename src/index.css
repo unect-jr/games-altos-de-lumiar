@@ -117,6 +117,8 @@
   :focus-visible {
     outline: 4px solid var(--color-canario);
     outline-offset: 3px;
+    /* anel escuro interno: o amarelo sozinho some no creme */
+    box-shadow: 0 0 0 3px var(--color-mata-950);
   }
 }
 

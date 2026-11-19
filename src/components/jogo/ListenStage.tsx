@@ -41,7 +41,7 @@ export function ListenStage({ ave, revelada, children, className = "" }: ListenS
     src === null
       ? "Este canto ainda não chegou. Tente adivinhar pelas opções!"
       : !somLigado
-        ? "O som está desligado. Ligue o som para ouvir."
+        ? "O som está desligado. Ligue o som ou jogue Silhueta e Passeio."
         : falhou
           ? audio.status === "bloqueado"
             ? "Toque no botão para ouvir."

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import { GameCard } from "../components/ui/GameCard";
@@ -21,9 +22,9 @@ function TelaToque({ onComecar }: { onComecar: () => void }) {
       type="button"
       onClick={onComecar}
       aria-label="Toque para começar"
-      className="relative flex h-dvh w-full flex-col items-center justify-end overflow-hidden text-creme-50 [touch-action:none]"
+      className="relative flex h-dvh w-full flex-col items-center justify-end overflow-hidden bg-mata-900 text-creme-50 [touch-action:none]"
     >
-      <img src={FOTO_LODGE} alt="" fetchPriority="high" className="absolute inset-0 size-full object-cover" />
+      <FotoLodge alt="" prioridade />
       <div className="absolute inset-0 bg-linear-to-t from-mata-950 via-mata-900/60 to-mata-900/10" />
 
       <div className="pb-safe px-safe relative flex flex-col items-center gap-3 pb-16 text-center">
@@ -71,8 +72,8 @@ function TelaToque({ onComecar }: { onComecar: () => void }) {
 function Menu() {
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="relative h-[34dvh] min-h-56 overflow-hidden text-creme-50">
-        <img src={FOTO_LODGE} alt={ALT_FOTO} className="absolute inset-0 size-full object-cover" />
+      <header className="relative h-[34dvh] min-h-56 overflow-hidden bg-mata-900 text-creme-50">
+        <FotoLodge alt={ALT_FOTO} />
         <div className="absolute inset-0 bg-linear-to-t from-mata-950/90 via-mata-900/40 to-mata-900/20" />
         <div className="pt-safe px-safe relative mx-auto flex h-full w-full max-w-conteudo flex-col pb-8">
           <div className="flex justify-end">
@@ -104,5 +105,20 @@ function Menu() {
         </Link>
       </footer>
     </div>
+  );
+}
+
+/** Foto do lodge; se falhar, some e fica o fundo verde com o gradiente. */
+function FotoLodge({ alt, prioridade = false }: { alt: string; prioridade?: boolean }) {
+  const [falhou, setFalhou] = useState(false);
+  if (falhou) return null;
+  return (
+    <img
+      src={FOTO_LODGE}
+      alt={alt}
+      fetchPriority={prioridade ? "high" : undefined}
+      onError={() => setFalhou(true)}
+      className="absolute inset-0 size-full object-cover"
+    />
   );
 }

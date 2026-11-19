@@ -8,11 +8,13 @@ type GameShellProps = {
   titulo: string;
   /** Pontos da rodada; omitido = sem placar no cabeçalho. */
   pontos?: number;
+  /** Páginas de leitura (ex.: Créditos): conteúdo rola na vertical. */
+  rolavel?: boolean;
   children: ReactNode;
 };
 
 /** Moldura dos jogos: cabeçalho (voltar, título, pontos, som) e área em tela cheia, sem rolagem. */
-export function GameShell({ titulo, pontos, children }: GameShellProps) {
+export function GameShell({ titulo, pontos, rolavel = false, children }: GameShellProps) {
   const navigate = useNavigate();
   return (
     <div className="flex h-dvh flex-col overflow-hidden">
@@ -33,7 +35,11 @@ export function GameShell({ titulo, pontos, children }: GameShellProps) {
           <SoundToggle />
         </div>
       </header>
-      <main className="pb-safe px-safe mx-auto flex w-full max-w-conteudo flex-1 flex-col overflow-hidden pt-4 [touch-action:none]">
+      <main
+        className={`pb-safe px-safe mx-auto flex w-full max-w-conteudo flex-1 flex-col pt-4 ${
+          rolavel ? "overflow-y-auto [touch-action:pan-y]" : "overflow-hidden [touch-action:none]"
+        }`}
+      >
         {children}
       </main>
     </div>
