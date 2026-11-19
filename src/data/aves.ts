@@ -4,14 +4,15 @@ import type { Ave, Habitat } from "./types";
 // Não acrescente fatos além dos que estão aqui sem validar com o guia do lodge.
 //
 // Mídias: fotos em `public/aves/imagens/<slug>.jpg` e cantos em
-// `public/aves/cantos/<slug>.<mp3|wav>`. Sem silhueta própria, o jogo escurece a foto.
+// `public/aves/cantos/<slug>.<mp3|wav>`. Silhuetas em `public/aves/silhuetas/<slug>.png`
+// (escurecidas por CSS); se faltar o arquivo, o jogo usa o desenho genérico.
 
 /** Imagem neutra usada enquanto a foto/silhueta real não existe. */
 export const PLACEHOLDER_AVE = "/aves/placeholder.svg";
 
 /** Monta a mídia da ave a partir do slug. */
 const midiaDe = (slug: string, extCanto: "mp3" | "wav") => ({
-  silhueta: null,
+  silhueta: `/aves/silhuetas/${slug}.png`,
   foto: `/aves/imagens/${slug}.jpg`,
   canto: `/aves/cantos/${slug}.${extCanto}`,
   creditos: [],
